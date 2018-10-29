@@ -1,0 +1,119 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='padding.css') }}">
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="background-color: #e3f2fd;" href="{{ url_for('login') }}">ObjectStore</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a style="color: white;" href="{{ url_for('login') }}">Home</a></li>
+		    <!--<li><a style="color: white;" href="{{ url_for('login') }}">Explore</a></li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a style="color: white;"  href="{{ url_for('login') }}">Login</a></li>
+                    <li><a style="color: white;"  href="{{ url_for('register') }}">SignUp</a></li>
+		    <li><a style="color: white;"  href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<body>
+	<table>
+	<tr>
+	   <th>FirstName</th>
+	   <th>LastName</th>
+	   <th>Email-Id</th>
+	</tr>
+	{% for data in userdata  %}
+	<tr>
+	   <td class="item.name">{{ data["fn"] }} </td>
+	   <td class="item-name">{{ data["ln"] }} </td>
+	   <td class="item-name">{{ data["email"] }} </td>
+	</tr>
+	{% endfor %}
+	</table>
+	</body>
+
+	<!--<form method="POST", action="/upload", enctype="multipart/form-data">-->
+	<form method="POST", action="/upload/{{ name }}", enctype="multipart/form-data">
+	{{form.hidden_tag()}}
+	{{wtf.form_field(form.filename)}}
+	{{wtf.form_field(form.description)}}
+	<div class="form-group">
+	     <label for="inputFile">Choose File</label>
+	     <input type="file" name="Choose File">
+	</div>
+	<button class="btn btn-default" type="submit">Upload</button>
+	{% for message in get_flashed_messages() %}
+        <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+        </div>
+        {% endfor %}
+	</form>
+
+	<body>
+	<table>
+	<tr>
+	   <th>FileName</th>
+	   <th>Description</th>
+	   <th>uploadedTime</th>
+	   <th>LastUpdatedTime</th>
+	   <th>Download</th>
+	   <th>Delete</th>
+	</tr>
+	{% for data in files  %}
+	<tr>
+	   <!--<td class="item.name">{{ data["Key"] }} </td>
+	   <td class="item.name">{{ data["Description"] }} </td>
+	   <td class="item.name">{{ data["uploadedTime"] }}</td>
+	   <td class="item.name">{{ data["LastModified"] }} </td>-->
+
+	   <td class="item.name">{{ data[1] }} </td>
+	   <td class="item.name">{{ data[4] }} </td>
+	   <td class="item.name">{{ data[2] }}</td>
+	   <td class="item.name">{{ data[3] }} </td>
+	   <form name="download" action="/download" method="GET"> 
+	   <td class="item-download"><button class="btn btn-default" type="submit" name="downloadFile" value="{{data[1]}}">download</button></td>
+	   </form>
+	   <form name="delete" action="/delete" method="POST"> 
+	      <td class="item-delete"><button class="btn btn-default btn-block" type="hidden" type="submit" name="deleteFile" value="{{data[1]}}">delete</button></td>
+	   </form>
+		   <!--<td class="item-download"><input class="btn btn-default" type="submit" type="button" name="downloadFile" value="{{data["Key"]}}"/></td>-->
+	   <!--<td class="item-download"><button class="btn btn-default" type="submit" name="downloadFile" value="{{data["Key"]}}">download</button></td>
+	   </form>
+	   <form name="delete" action="/delete" method="POST"> 
+	      <td class="item-delete"><button class="btn btn-default btn-block" type="hidden" type="submit" name="deleteFile" value="{{data["Key"]}}">delete</button></td>
+	   </form>-->
+	</tr>
+        {% endfor %}
+
+	</table>
+	</body>
+	<!--</form>-->
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+{% endblock %}
+

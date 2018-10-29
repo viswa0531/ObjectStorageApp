@@ -1,0 +1,55 @@
+
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block navbar %}
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+		<a class="navbar-brand" style="background-color: #e3f2fd;" href="{{ url_for('login') }}">ObjectStore</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a style="color: white;" href="{{ url_for('login') }}">Home</a></li>
+		    <!--<li><a style="color: white;" href="{{ url_for('login') }}">Explore</a></li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a style="color: white;"  href="{{ url_for('login') }}">Login</a></li>
+                    <li><a style="color: white;"  href="{{ url_for('register') }}">SignUp</a></li>
+                    <li><a style="color: white;"  href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <form method="POST", action="/">
+    <dl>
+	{% for message in get_flashed_messages() %}
+	<div class="alert alert-warning">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+	</div>
+	{% endfor %}
+	{{wtf.quick_form(form)}}
+	<input class="btn btn-primary" type="submit" value="Login">
+     </dl>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+{% endblock %}
+

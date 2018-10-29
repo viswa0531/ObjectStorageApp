@@ -1,0 +1,69 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='padding.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<body>
+	<table>
+	<tr>
+	   <th>FirstName</th>
+	   <th>LastName</th>
+	   <th>Email-Id</th>
+	</tr>
+	{% for data in userdata  %}
+	<tr>
+	   <td class="item.name">{{ data["fn"] }} </td>
+	   <td class="item-name">{{ data["ln"] }} </td>
+	   <td class="item-name">{{ data["email"] }} </td>
+	</tr>
+	{% endfor %}
+	</table>
+	</body>
+
+	<!--<form method="POST", action="/upload", enctype="multipart/form-data">-->
+	<form method="POST", action="/upload/{{ name }}", enctype="multipart/form-data">
+	{{form.hidden_tag()}}
+	{{wtf.form_field(form.description)}}
+	<div class="form-group">
+	     <label for="inputFile">Choose File</label>
+	     <input type="file" name="Choose File">
+	</div>
+	<button class="btn btn-default" type="submit">Upload</button>
+	{% for message in get_flashed_messages() %}
+        <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+        </div>
+        {% endfor %}
+
+
+	<body>
+	<table>
+	{% for data in files  %}
+	<tr>
+	   <td class="item.name">{{ data["Key"] }} </td>
+	   <form name="download" action="/download" method="GET"> 
+	      <td class="item-download"><input class="btn btn-default" type="submit" type="button" name="downloadFile" value="{{data["Key"]}}"/></td>
+	   </form>
+	   <form name="delete" action="/delete" method="POST"> 
+	      <td class="item-delete"><button class="btn btn-default btn-primary btn-block" type="submit" name="DeleteFile" value="{{data["Key"]}}">del</button></td>
+	   </form>
+	</tr>
+        {% endfor %}
+
+	</table>
+	</body>
+	</form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+{% endblock %}
+
