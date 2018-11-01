@@ -11,6 +11,8 @@ Professor: Sanjay Garje
 
 ISA: AnuShri Srinath Aithal
 
+Website http://storeobjectapp.com/
+
 ### Object Storage App project Introduction
 Object storage app is a web application hosted on Amazon web services which provide the users to save and access their files on cloud. It is 3 Tier Web Application which is highly available, durable and provides a scalable solution. User can register to a web application and login to it to upload and download the files to s3 bucket and the user can delete the file as well.  Admin has all the privileges to view user files and can delete or modify them and admin also has privileges to remove access to any user by deleting it.
 
